@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'  # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '20.x'  # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
   build-and-deploy:
@@ -22,7 +22,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # Skipping npm commands as they're not needed
+      # Add Azure login step
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Skipping npm Install and Build Steps
       - name: 'Skip npm Install and Build Steps'
         shell: pwsh
         run: |
@@ -38,3 +44,8 @@ jobs:
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E4E91064E66242BBAC012EE5B4132236 }}
+          respect-pom-xml: false
+          respect-funcignore: false
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false
+          remote-build: false
