@@ -39,7 +39,7 @@
     <script>
         async function fetchStudentData() {
             try {
-                const response = await fetch('https://your-api-endpoint');
+                const response = await fetch('https://pavanireddy.azurewebsites.net/api/HttpTrigger1?code=G_Ija1ojiZJxrObw8kNq17MdC69P1kbqvDfRLWN_hDI-AzFuOVZJ_Q%3D%3D');
                 const data = await response.json();
                 const tableBody = document.querySelector('#studentTable tbody');
                 tableBody.innerHTML = '';
